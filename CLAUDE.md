@@ -6,6 +6,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 TinyPath is a minimal JSON query language specification — a strict subset of JSONPath — designed for IoT device MQTT message data point mapping. This repository is a **spec repository** containing the language specification and compliance test case definitions.
 
+## Language & Localization Conventions
+
+The author is Chinese, so Chinese may appear in some parts of the project. The general rule is: **prefer English, tolerate Chinese where necessary**.
+
+- **Documents**: bilingual files are maintained in parallel. The Chinese version uses a `.zh-CN` suffix (e.g., `spec/SPEC.zh-CN.md`), and the English version uses no suffix (e.g., `spec/SPEC.md`). English files may be AI-translated from the Chinese source — add the following notice at the top of any such file:
+  ```
+  > This document was translated from the Chinese source by AI. The Chinese version is the authoritative reference.
+  ```
+- **Git commit messages**: always in English.
+- **Code and comments**: English preferred.
+
 ## Repository Structure
 
 - `spec/SPEC.zh-CN.md`: TinyPath language specification (Chinese)
