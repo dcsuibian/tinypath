@@ -5,7 +5,32 @@
 
   <groupId>com.dcsuibian</groupId>
   <artifactId>tinypath-java</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
+
+  <name>tinypath-java</name>
+  <description>Java implementation of TinyPath, a minimal JSON path expression language for IoT scenarios</description>
+  <url>https://github.com/dcsuibian/tinypath</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://opensource.org/licenses/MIT</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>dcsuibian</id>
+      <name>Chong Ding</name>
+      <email>dcsuibian@163.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/dcsuibian/tinypath.git</connection>
+    <developerConnection>scm:git:ssh://github.com/dcsuibian/tinypath.git</developerConnection>
+    <url>https://github.com/dcsuibian/tinypath</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,6 +61,57 @@
           <systemPropertyVariables>
             <tinypath.tests>${project.basedir}/../spec/tests.json</tinypath.tests>
           </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.4.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.12.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>3.2.8</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <gpgArguments>
+            <arg>--pinentry-mode</arg>
+            <arg>loopback</arg>
+          </gpgArguments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.10.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <publishingServerId>central</publishingServerId>
         </configuration>
       </plugin>
     </plugins>
