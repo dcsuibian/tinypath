@@ -1,0 +1,457 @@
+[
+  {
+    "description": "root on string returns the string itself",
+    "data": "hello",
+    "expression": "$",
+    "expected": "hello"
+  },
+  {
+    "description": "root on number returns the number itself",
+    "data": 42,
+    "expression": "$",
+    "expected": 42
+  },
+  {
+    "description": "root on boolean returns the boolean itself",
+    "data": true,
+    "expression": "$",
+    "expected": true
+  },
+  {
+    "description": "root on null returns null",
+    "data": null,
+    "expression": "$",
+    "expected": null
+  },
+  {
+    "description": "field access returns the value",
+    "data": {
+      "name": "alice"
+    },
+    "expression": "$[\"name\"]",
+    "expected": "alice"
+  },
+  {
+    "description": "nested field access",
+    "data": {
+      "a": {
+        "b": "value"
+      }
+    },
+    "expression": "$[\"a\"][\"b\"]",
+    "expected": "value"
+  },
+  {
+    "description": "field name may contain spaces",
+    "data": {
+      "hello world": "ok"
+    },
+    "expression": "$[\"hello world\"]",
+    "expected": "ok"
+  },
+  {
+    "description": "missing field returns null",
+    "data": {
+      "name": "alice"
+    },
+    "expression": "$[\"age\"]",
+    "expected": null
+  },
+  {
+    "description": "field access on array returns null",
+    "data": {
+      "a": [
+        1,
+        2
+      ]
+    },
+    "expression": "$[\"a\"][\"b\"]",
+    "expected": null
+  },
+  {
+    "description": "field access on string returns null",
+    "data": {
+      "a": "hello"
+    },
+    "expression": "$[\"a\"][\"b\"]",
+    "expected": null
+  },
+  {
+    "description": "field access on null returns null",
+    "data": {
+      "a": null
+    },
+    "expression": "$[\"a\"][\"b\"]",
+    "expected": null
+  },
+  {
+    "description": "array index 0",
+    "data": {
+      "items": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    "expression": "$[\"items\"][0]",
+    "expected": "a"
+  },
+  {
+    "description": "array index non-zero",
+    "data": {
+      "items": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    "expression": "$[\"items\"][2]",
+    "expected": "c"
+  },
+  {
+    "description": "array index on root array",
+    "data": [
+      "a",
+      "b",
+      "c"
+    ],
+    "expression": "$[1]",
+    "expected": "b"
+  },
+  {
+    "description": "array index out of bounds returns null",
+    "data": {
+      "items": [
+        "a"
+      ]
+    },
+    "expression": "$[\"items\"][5]",
+    "expected": null
+  },
+  {
+    "description": "array index on non-array returns null",
+    "data": {
+      "name": "alice"
+    },
+    "expression": "$[\"name\"][0]",
+    "expected": null
+  },
+  {
+    "description": "filter with string value",
+    "data": {
+      "items": [
+        {
+          "type": "a",
+          "v": 1
+        },
+        {
+          "type": "b",
+          "v": 2
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"type\"]==\"b\")][\"v\"]",
+    "expected": 2
+  },
+  {
+    "description": "filter with string value containing spaces",
+    "data": {
+      "items": [
+        {
+          "name": "hello world",
+          "v": 1
+        },
+        {
+          "name": "foo",
+          "v": 2
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"name\"]==\"hello world\")][\"v\"]",
+    "expected": 1
+  },
+  {
+    "description": "filter with integer value",
+    "data": {
+      "items": [
+        {
+          "id": 1,
+          "v": "x"
+        },
+        {
+          "id": 2,
+          "v": "y"
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"id\"]==2)][\"v\"]",
+    "expected": "y"
+  },
+  {
+    "description": "filter with float value",
+    "data": {
+      "items": [
+        {
+          "v": 1.5,
+          "name": "a"
+        },
+        {
+          "v": 2.5,
+          "name": "b"
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"v\"]==2.5)][\"name\"]",
+    "expected": "b"
+  },
+  {
+    "description": "filter with boolean true",
+    "data": {
+      "items": [
+        {
+          "active": true,
+          "name": "a"
+        },
+        {
+          "active": false,
+          "name": "b"
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"active\"]==true)][\"name\"]",
+    "expected": "a"
+  },
+  {
+    "description": "filter with boolean false",
+    "data": {
+      "items": [
+        {
+          "active": true,
+          "name": "a"
+        },
+        {
+          "active": false,
+          "name": "b"
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"active\"]==false)][\"name\"]",
+    "expected": "b"
+  },
+  {
+    "description": "filter with null value",
+    "data": {
+      "items": [
+        {
+          "v": null,
+          "name": "a"
+        },
+        {
+          "v": "x",
+          "name": "b"
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"v\"]==null)][\"name\"]",
+    "expected": "a"
+  },
+  {
+    "description": "filter returns the first match",
+    "data": {
+      "items": [
+        {
+          "type": "a",
+          "i": 1
+        },
+        {
+          "type": "a",
+          "i": 2
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"type\"]==\"a\")][\"i\"]",
+    "expected": 1
+  },
+  {
+    "description": "filter with no match returns null",
+    "data": {
+      "items": [
+        {
+          "type": "a"
+        },
+        {
+          "type": "b"
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"type\"]==\"c\")]",
+    "expected": null
+  },
+  {
+    "description": "filter on empty array returns null",
+    "data": {
+      "items": []
+    },
+    "expression": "$[\"items\"][?(@[\"type\"]==\"a\")]",
+    "expected": null
+  },
+  {
+    "description": "filter on non-array returns null",
+    "data": {
+      "item": {
+        "type": "a"
+      }
+    },
+    "expression": "$[\"item\"][?(@[\"type\"]==\"a\")]",
+    "expected": null
+  },
+  {
+    "description": "filter on root array",
+    "data": [
+      {
+        "type": "a",
+        "v": 1
+      },
+      {
+        "type": "b",
+        "v": 2
+      }
+    ],
+    "expression": "$[?(@[\"type\"]==\"b\")][\"v\"]",
+    "expected": 2
+  },
+  {
+    "description": "filter with multiple conditions, all match",
+    "data": {
+      "items": [
+        {
+          "type": "temp",
+          "id": "01",
+          "v": 1
+        },
+        {
+          "type": "temp",
+          "id": "02",
+          "v": 2
+        },
+        {
+          "type": "humi",
+          "id": "01",
+          "v": 3
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"type\"]==\"temp\"&&@[\"id\"]==\"02\")][\"v\"]",
+    "expected": 2
+  },
+  {
+    "description": "filter with multiple conditions, partial match returns null",
+    "data": {
+      "items": [
+        {
+          "type": "temp",
+          "id": "01"
+        },
+        {
+          "type": "humi",
+          "id": "02"
+        }
+      ]
+    },
+    "expression": "$[\"items\"][?(@[\"type\"]==\"temp\"&&@[\"id\"]==\"02\")]",
+    "expected": null
+  },
+  {
+    "description": "spec example",
+    "data": {
+      "sensors": [
+        {
+          "type": "temp",
+          "id": "01",
+          "readings": [
+            {
+              "value": "36.500",
+              "ts": 1700000001
+            },
+            {
+              "value": "36.800",
+              "ts": 1700000002
+            }
+          ]
+        },
+        {
+          "type": "humi",
+          "id": "01",
+          "readings": [
+            {
+              "value": "65.200",
+              "ts": 1700000001
+            }
+          ]
+        }
+      ]
+    },
+    "expression": "$[\"sensors\"][?(@[\"type\"]==\"temp\"&&@[\"id\"]==\"01\")][\"readings\"][0][\"value\"]",
+    "expected": "36.500"
+  },
+  {
+    "description": "expression must start with $",
+    "expression": "sensors",
+    "invalid": true
+  },
+  {
+    "description": "empty field name is not allowed",
+    "expression": "$[\"\"]",
+    "invalid": true
+  },
+  {
+    "description": "space before == is not allowed",
+    "expression": "$[\"items\"][?(@[\"type\"] ==\"a\")]",
+    "invalid": true
+  },
+  {
+    "description": "space after == is not allowed",
+    "expression": "$[\"items\"][?(@[\"type\"]== \"a\")]",
+    "invalid": true
+  },
+  {
+    "description": "space before && is not allowed",
+    "expression": "$[\"items\"][?(@[\"type\"]==\"a\" &&@[\"id\"]==\"1\")]",
+    "invalid": true
+  },
+  {
+    "description": "space after && is not allowed",
+    "expression": "$[\"items\"][?(@[\"type\"]==\"a\"&& @[\"id\"]==\"1\")]",
+    "invalid": true
+  },
+  {
+    "description": "truncated expression",
+    "expression": "$[\"sensors\"][",
+    "invalid": true
+  },
+  {
+    "description": "dot notation is not supported",
+    "expression": "$.sensors",
+    "invalid": true
+  },
+  {
+    "description": "wildcard is not supported",
+    "expression": "$[*]",
+    "invalid": true
+  },
+  {
+    "description": "negative index is not supported",
+    "expression": "$[\"items\"][-1]",
+    "invalid": true
+  },
+  {
+    "description": "recursive descent is not supported",
+    "expression": "$..\"value\"",
+    "invalid": true
+  },
+  {
+    "description": "single quotes are not supported",
+    "expression": "$['sensors']",
+    "invalid": true
+  }
+]
