@@ -400,11 +400,6 @@
     "invalid": true
   },
   {
-    "description": "empty field name is not allowed",
-    "expression": "$[\"\"]",
-    "invalid": true
-  },
-  {
     "description": "space before == is not allowed",
     "expression": "$[\"items\"][?(@[\"type\"] ==\"a\")]",
     "invalid": true

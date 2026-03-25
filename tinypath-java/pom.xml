@@ -31,6 +31,12 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.5.5</version>
+        <configuration>
+          <redirectTestOutputToFile>false</redirectTestOutputToFile>
+          <systemPropertyVariables>
+            <tinypath.tests>${project.basedir}/../spec/tests.json</tinypath.tests>
+          </systemPropertyVariables>
+        </configuration>
       </plugin>
     </plugins>
   </build>
