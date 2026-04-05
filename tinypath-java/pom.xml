@@ -5,7 +5,7 @@
 
   <groupId>com.dcsuibian</groupId>
   <artifactId>tinypath-java</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 
   <name>tinypath-java</name>
   <description>Java implementation of TinyPath, a minimal JSON path expression language for IoT scenarios</description>
