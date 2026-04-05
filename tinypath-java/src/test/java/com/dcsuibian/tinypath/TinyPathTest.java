@@ -3,7 +3,7 @@ package com.dcsuibian.tinypath;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 class TinyPathTest {
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final JsonMapper MAPPER = JsonMapper.builder().build();
 
     @TestFactory
     Collection<DynamicTest> compliance() throws Exception {

@@ -43,6 +43,10 @@ public final class TinyPath {
      * <p>Returns {@code null} when the path does not resolve — for example, when a field
      * is missing, an array index is out of bounds, or a filter has no match.
      *
+     * <p>If you need to evaluate multiple expressions against the same JSON data, prefer
+     * {@link #evaluate(JsonNode, Class)} with a pre-parsed {@link JsonNode} to avoid
+     * parsing the JSON string repeatedly.
+     *
      * @param <T>  the expected result type
      * @param json the JSON string to evaluate against
      * @param type the expected result type class (e.g. {@code String.class}, {@code Integer.class})
@@ -50,7 +54,25 @@ public final class TinyPath {
      * @throws TinyPathException if the JSON string is invalid
      */
     public <T> T evaluate(String json, Class<T> type) {
-        JsonNode root = Json.parse(json);
+        return evaluate(Json.parse(json), type);
+    }
+
+    /**
+     * Evaluates this expression against a pre-parsed {@link JsonNode} and converts the result
+     * to the specified type.
+     *
+     * <p>Use this overload when evaluating multiple expressions against the same JSON data,
+     * so the JSON string is parsed only once via {@link Json#MAPPER}.
+     *
+     * <p>Returns {@code null} when the path does not resolve — for example, when a field
+     * is missing, an array index is out of bounds, or a filter has no match.
+     *
+     * @param <T>  the expected result type
+     * @param root the pre-parsed JSON tree to evaluate against
+     * @param type the expected result type class (e.g. {@code String.class}, {@code Integer.class})
+     * @return the value at the path, or {@code null} if the path does not resolve
+     */
+    public <T> T evaluate(JsonNode root, Class<T> type) {
         JsonNode result = Evaluator.evaluate(steps, root);
         return Json.convert(result, type);
     }

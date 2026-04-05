@@ -2,10 +2,10 @@ package com.dcsuibian.tinypath;
 
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 class Json {
-    static final ObjectMapper MAPPER = new ObjectMapper();
+    static final JsonMapper MAPPER = JsonMapper.builder().build();
 
     static JsonNode parse(String json) {
         try {
