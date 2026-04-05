@@ -1,6 +1,6 @@
 [project]
 name = "tinypath-py"
-version = "1.0.0"
+version = "1.0.1"
 description = "Python implementation of TinyPath, a minimal JSON path expression language for IoT scenarios"
 license = { text = "MIT" }
 authors = [

@@ -241,6 +241,9 @@ class TinyPath:
         Returns ``None`` when the path does not resolve — for example, when a field
         is missing, an array index is out of bounds, or a filter has no match.
 
+        If you need to evaluate multiple expressions against the same JSON data, prefer
+        :meth:`evaluate_data` with pre-parsed data to avoid parsing the JSON string repeatedly.
+
         Args:
             json_str: The JSON string to evaluate against.
 
@@ -254,6 +257,23 @@ class TinyPath:
             data = json.loads(json_str)
         except json.JSONDecodeError as e:
             raise TinyPathException(f"Invalid JSON: {e}") from e
+        return self.evaluate_data(data)
+
+    def evaluate_data(self, data: Any) -> Any:
+        """Evaluate this expression against already-parsed data.
+
+        Use this method when evaluating multiple expressions against the same JSON data,
+        so the JSON string is parsed only once via :func:`json.loads`.
+
+        Returns ``None`` when the path does not resolve — for example, when a field
+        is missing, an array index is out of bounds, or a filter has no match.
+
+        Args:
+            data: The parsed JSON data (typically a ``dict`` or ``list``).
+
+        Returns:
+            The value at the path, or ``None`` if the path does not resolve.
+        """
         return _evaluate(self._steps, data)
 
     def __str__(self) -> str:
